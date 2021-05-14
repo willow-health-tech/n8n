@@ -1696,6 +1696,7 @@ class App {
 						}
 					);
 				}
+				returnData.sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
 
 				return returnData;
 			}

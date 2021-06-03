@@ -183,10 +183,6 @@ class LoadNodesAndCredentialsClass {
 			tempNode.description.icon = 'file:' + path.join(path.dirname(filePath), tempNode.description.icon.substr(5));
 		}
 
-		if (tempNode.description.language) {
-			tempNode.description.translationFilePath = path.join(path.dirname(filePath), 'translations', `${tempNode.description.language}.js`);
-		}
-
 		if (tempNode.executeSingle) {
 			this.logger.warn(`"executeSingle" will get deprecated soon. Please update the code of node "${packageName}.${nodeName}" to use "execute" instead!`, { filePath });
 

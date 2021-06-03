@@ -67,7 +67,6 @@ export class Gmail implements INodeType {
 		displayName: 'Gmail',
 		name: 'gmail',
 		icon: 'file:gmail.svg',
-		language: 'es',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',

@@ -550,8 +550,6 @@ export interface INodeTypeDescription {
 	group: string[];
 	version: number;
 	description: string;
-	language?: string;
-	translationFilePath?: string;
 	translation?: { [key: string]: string | object};
 	defaults: INodeParameters;
 	documentationUrl?: string;

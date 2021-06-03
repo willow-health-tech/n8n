@@ -24,7 +24,6 @@ export class Github implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'GitHub',
 		name: 'github',
-		language: 'de',
 		icon: 'file:github.svg',
 		group: ['input'],
 		version: 1,

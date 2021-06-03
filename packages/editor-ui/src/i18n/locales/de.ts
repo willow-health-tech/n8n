@@ -19,7 +19,7 @@ export default {
 		},
 		"n8n-nodes-base": {
 			start: {
-				hallo: "hallöchen",
+				hello: "hallöchen",
 			},
 		},
 	},

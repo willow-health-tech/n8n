@@ -1,6 +1,5 @@
 export default {
 	en: {
-		message: "hello n8n !!",
 		about: {
 			aboutN8n: "About n8n",
 			sourceCode: "Source Code",

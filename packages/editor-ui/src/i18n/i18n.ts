@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
-import messages from './locales/de';
+import messages from './locales/de'; // TODO: this needs to be changed when switching languages
 import axios from 'axios';
 
 Vue.use(VueI18n);
 
 export const i18n = new VueI18n({
-	locale: 'de', // set locale
+	locale: 'en', // set locale
 	fallbackLocale: 'en',
 	messages, // set locale messages
 });
@@ -17,8 +17,11 @@ function setI18nLanguage (lang: string): string {
 	i18n.locale = lang;
 	axios.defaults.headers.common['Accept-Language'] = lang;
 	document!.querySelector('html')!.setAttribute('lang', lang);
+	console.log('frontend language ', lang);
 	return lang;
 }
+
+setI18nLanguage('de'); // TODO: remember to find a proper solution for this
 
 export function addNodeTranslations(translations: { [key: string]: string | object} ) {
 	const lang = Object.keys(translations)[0];

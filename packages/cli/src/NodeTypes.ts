@@ -28,11 +28,16 @@ class NodeTypesClass implements INodeTypes {
 		return Object.values(this.nodeTypes).map((data) => data.type);
 	}
 
-	getByName(nodeType: string): INodeType | undefined {
-		if (this.nodeTypes[nodeType] === undefined) {
+	getByName(nodeType: string): INodeType;
+	getByName(nodeType: string, fullNode: true): INodeTypeData[''];
+	getByName(nodeType: string, fullNode?: boolean): INodeType | INodeTypeData[''] {
+		const node = this.nodeTypes[nodeType];
+
+		if (node === undefined) {
 			throw new Error(`The node-type "${nodeType}" is not known!`);
 		}
-		return this.nodeTypes[nodeType].type;
+
+		return fullNode ? node : node.type;
 	}
 }
 

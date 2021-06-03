@@ -1,5 +1,6 @@
 import * as express from 'express';
 import {
+	existsSync,
 	readFileSync,
 } from 'fs';
 import {
@@ -116,6 +117,7 @@ import * as TagHelpers from './TagHelpers';
 import { TagEntity } from './databases/entities/TagEntity';
 import { WorkflowEntity } from './databases/entities/WorkflowEntity';
 import { WorkflowNameRequest } from './WorkflowHelpers';
+import path = require('path');
 
 class App {
 
@@ -876,7 +878,6 @@ class App {
 
 		// Returns all the node-types
 		this.app.get(`/${this.restEndpoint}/node-types`, ResponseHelper.send(async (req: express.Request, res: express.Response): Promise<INodeTypeDescription[]> => {
-
 			const returnData: INodeTypeDescription[] = [];
 
 			const nodeTypes = NodeTypes();
@@ -895,6 +896,7 @@ class App {
 				returnData.push(nodeInfo);
 			});
 
+
 			return returnData;
 		}));
 
@@ -904,16 +906,23 @@ class App {
 			const nodeNames = _.get(req, 'body.nodeNames', []) as string[];
 			const nodeTypes = NodeTypes();
 
+			const language = req.headers['accept-language'] ?? '';
+			const requiresTranslation = language.length === 2;
+
 			return nodeNames.map(name => {
 				try {
-					const node = nodeTypes.getByName(name);
+					if (!requiresTranslation || language === 'en') return nodeTypes.getByName(name);
 
-					if (!node) throw new Error();
-					if (node.description.translationFilePath) {
-						node.description.translation = require(node.description.translationFilePath);
+					const { type, sourcePath } = nodeTypes.getByName(name, true);
+
+					if (sourcePath && name !== 'n8n-nodes-base.start') {
+						const translationFilePath = path.join(path.dirname(sourcePath), 'translations', `${language}.js`);
+						if (existsSync(translationFilePath)) {
+							type.description.translation = require(translationFilePath);
+						}
 					}
 
-					return node;
+					return type;
 				} catch (e) {
 					return undefined;
 				}

@@ -5,7 +5,7 @@ module.exports = {
 				Authentication: {
 					displayName: 'Authentifizierung',
 					options: {
-						'Access Token': {
+						accessToken: {
 							displayName: 'Zugangstoken',
 						},
 					},
@@ -14,23 +14,23 @@ module.exports = {
 					displayName: 'Ressource',
 					description: 'Beschreibung der Ressourcen',
 					options: {
-						Issue: {
+						issue: {
 							displayName: 'Thema',
 							description: 'Beschreibung eines Themas',
 						},
-						File: {
+						file: {
 							displayName: 'Datei',
 						},
-						Repository: {
+						repository: {
 							displayName: 'Repo',
 						},
-						Release: {
+						release: {
 							displayName: 'Veröffentlichung',
 						},
-						Review: {
+						review: {
 							displayName: 'Überprüfung',
 						},
-						User: {
+						user: {
 							displayName: 'Benutzer',
 						},
 					},
@@ -38,14 +38,14 @@ module.exports = {
 				Operation: {
 					displayName: 'Aktion',
 					options: {
-						Create: {
+						create: {
 							displayName: 'Schaffen',
 							description: 'Neue Datei in Repo schaffen.',
 						},
-						Delete: {
+						delete: {
 							displayName: 'Entfernen',
 						},
-						Get: {
+						get: {
 							displayName: 'Anfragen',
 						},
 					},
@@ -88,13 +88,13 @@ module.exports = {
 				'Additional Parameters': {
 					displayName: 'Zusätzliche Parameter',
 					options: {
-						Author: {
+						author: {
 							displayName: 'Autor',
 						},
-						Branch: {
+						branch: {
 							displayName: 'Ast',
 						},
-						Committer: {
+						committer: {
 							displayName: 'Commit-Macher',
 						},
 					},

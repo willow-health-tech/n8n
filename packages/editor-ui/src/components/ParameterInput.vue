@@ -54,9 +54,9 @@
 				v-for="option in parameterOptions"
 				:value="option.value"
 				:key="option.value"
-				:label="$translateOptionName(parameter.displayName, option.name)"
+				:label="$translateOptionName(parameter.displayName, option.value)"
 			>
-				<div class="option-headline">{{ $translateOptionName(parameter.displayName, option.name) }}</div>
+				<div class="option-headline">{{ $translateOptionName(parameter.displayName, option.value) }}</div>
 				<div v-if="$translateOptionDescription(parameter.displayName, option.name, option.description)" class="option-description" v-html="$translateOptionDescription(parameter.displayName, option.name, option.description)"></div>
 			</el-option>
 		</el-select>

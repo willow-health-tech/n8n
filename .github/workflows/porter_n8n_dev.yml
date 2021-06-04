@@ -33,10 +33,11 @@ jobs:
 
         export $(echo "${{secrets.ENV_N8N_DEV}}" | xargs)
         echo "${{secrets.ENV_N8N_DEV}}" > ./env_porter
-        sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
-        sudo apt-get update
-        sudo apt-get install pack-cli
-        sudo pack build 475447899829.dkr.ecr.us-east-2.amazonaws.com/n8n-dev-default:$(git rev-parse --short HEAD) --path ./ --builder heroku/buildpacks:18 --env-file ./env_porter
+        #sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+        #sudo apt-get update
+        #sudo apt-get install pack-cli
+        #sudo pack build 475447899829.dkr.ecr.us-east-2.amazonaws.com/n8n-dev-default:$(git rev-parse --short HEAD) --path ./ --builder heroku/buildpacks:18 --env-file ./env_porter
+        sudo docker build . --file ./docker/images/n8n-custom/Dockerfile -t 475447899829.dkr.ecr.us-east-2.amazonaws.com/n8n-dev-default:$(git rev-parse --short HEAD) --env-file ./env_porter
         sudo docker push 475447899829.dkr.ecr.us-east-2.amazonaws.com/n8n-dev-default:$(git rev-parse --short HEAD)
     - name: Deploy on Porter
       id: deploy_porter

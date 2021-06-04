@@ -6,18 +6,12 @@ if [ -d /root/.n8n ] ; then
   ln -s /root/.n8n /home/node/
 fi
 
+chown -R node /home/node
+
 if [ "$#" -gt 0 ]; then
   # Got started with arguments
-  COMMAND=$1;
-
-  if [[ "$COMMAND" == "n8n" ]]; then
-    shift
-    exec su-exec node ./packages/cli/bin/n8n "$@"
-  else
-    exec su-exec node "$@"
-  fi
-
+  exec su-exec node "$@"
 else
-# Got started without arguments
-exec su-exec node ./packages/cli/bin/n8n
+  # Got started without arguments
+  exec su-exec node n8n
 fi

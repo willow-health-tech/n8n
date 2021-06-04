@@ -1,40 +1,20 @@
-# 1. Create an image to build n8n
-FROM node:14.15-alpine as builder
-
-# Update everything and install needed dependencies
-USER root
-
-# Install all needed dependencies
-RUN apk --update add --virtual build-dependencies python build-base ca-certificates && \
-	npm_config_user=root npm install -g lerna
-
-WORKDIR /data
-
-COPY lerna.json .
-COPY package.json .
-COPY packages/cli/ ./packages/cli/
-COPY packages/core/ ./packages/core/
-COPY packages/editor-ui/ ./packages/editor-ui/
-COPY packages/nodes-base/ ./packages/nodes-base/
-COPY packages/workflow/ ./packages/workflow/
-RUN rm -rf node_modules packages/*/node_modules packages/*/dist
-
-RUN npm install --production --loglevel notice
-RUN lerna bootstrap --hoist -- --production
-RUN npm run build
-
-
-# 2. Start with a new clean image with just the code that is needed to run n8n
 FROM node:14.15-alpine
 
+ARG N8N_VERSION
+
+RUN if [ -z "$N8N_VERSION" ] ; then echo "The N8N_VERSION argument is missing!" ; exit 1; fi
+
+# Update everything and install needed dependencies
+RUN apk add --update graphicsmagick tzdata git tini su-exec
+
+# # Set a custom user to not have n8n run as root
 USER root
 
-RUN apk add --update graphicsmagick tzdata tini su-exec
-
-WORKDIR /data
-
-# Install all needed dependencies
-RUN npm_config_user=root npm install -g full-icu
+# Install n8n and the also temporary all the packages
+# it needs to build it correctly.
+RUN apk --update add --virtual build-dependencies python build-base ca-certificates && \
+	npm_config_user=root npm install -g full-icu n8n@${N8N_VERSION} && \
+	apk del build-dependencies
 
 # Install fonts
 RUN apk --no-cache add --virtual fonts msttcorefonts-installer fontconfig && \
@@ -45,9 +25,9 @@ RUN apk --no-cache add --virtual fonts msttcorefonts-installer fontconfig && \
 
 ENV NODE_ICU_DATA /usr/local/lib/node_modules/full-icu
 
-COPY --from=builder /data ./
+WORKDIR /data
 
-COPY docker/images/n8n-custom/docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 5678/tcp

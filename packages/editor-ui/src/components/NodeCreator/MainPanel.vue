@@ -21,7 +21,6 @@
 					:elements="categorized"
 					:disabled="!!activeSubcategory"
 					:activeIndex="activeIndex"
-					:transitionsEnabled="true"
 					@selected="selected"
 				/>
 			</div>
